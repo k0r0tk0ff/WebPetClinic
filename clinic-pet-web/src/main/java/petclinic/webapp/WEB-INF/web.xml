@@ -8,11 +8,11 @@
 
 	<servlet>
 		<servlet-name>PetClinic</servlet-name>
-		<servlet-class>petclinic.servlets.PetClinic</servlet-class>
+		<servlet-class>petclinic.servlets.WebClinicServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>PetClinic</servlet-name>
-		<url-pattern>/petclinic</url-pattern>
+		<servlet-name>WebClinicServlet</servlet-name>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 </web-app>
