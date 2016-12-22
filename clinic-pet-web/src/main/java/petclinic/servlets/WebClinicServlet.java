@@ -1,6 +1,7 @@
 package petclinic.servlets;
 
 import petsclinic.Animal;
+import petsclinic.Dog;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +42,7 @@ public class WebClinicServlet extends HttpServlet {
                         "</head>" +
                         "<body>" +
                         "     <form action='"+req.getContextPath()+"/' method='post'>" +
-                        "         Name : <input type='text' name='name'>"+
+                        "         Nick : <input type='text' name='name'>"+
                         "         Owner : <input type='text' name='owner'>"+
                         "         Age : <input type='text' name='age'>"+
                         "         <input type='submit' value='add new Pet'>"+
@@ -50,7 +51,7 @@ public class WebClinicServlet extends HttpServlet {
                         "<br>" +
                         "<br>" +
                         "     <form action='"+req.getContextPath()+"/' method='post'>" +
-                        "         Name : <input type='text' name='find'>"+
+                        "         Nick : <input type='text' name='find'>"+
                         "         <input type='submit' value='findByPetName'>"+
                         "     <form>"+
                         this.findPets(nameForFind) +
@@ -60,11 +61,22 @@ public class WebClinicServlet extends HttpServlet {
         writer.flush();
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        if (!req.getParameter("name").isEmpty() && !req.getParameter("age").isEmpty() &&
+                !req.getParameter("owner").isEmpty())
+            this.pets.add(new Dog(req.getParameter("name"), req.getParameter("owner"), Integer.parseInt(req.getParameter("age"))));
+        if (!req.getParameter("find").isEmpty())
+            this.nameForFind = req.getParameter("find");
+        doGet(req, resp);
+    }
+
     private String viewPets() {
         StringBuilder sb = new StringBuilder();
         sb.append("<p>All Pets:</p>");
         sb.append("<table>");
-        sb.append("<tr><td>").append(" PET NAME: </td><td> PET OWNER: </td><td> PET AGE: </td></tr>");
+        sb.append("<tr><td>").append(" PET NICK: </td><td> PET OWNER: </td><td> PET AGE: </td></tr>");
         for (Animal pet : this.pets) {
             sb.append("<tr><td>").
                     append(pet.getNick()).
@@ -87,7 +99,13 @@ public class WebClinicServlet extends HttpServlet {
             sb.append("<tr><td>").append(" PET NAME: </td><td> PET OWNER: </td><td> PET AGE: </td></tr>");
             for (Animal pet : this.pets) {
                 if (nameOfPet.equals(pet.getNick())) {
-                    sb.append("<tr><td>").append(pet.getNick()).append("</td><td>").append(pet.getOwner()).append("</td><td>").append(pet.getAge()).append("</td></tr>");
+                    sb.append("<tr><td>").
+                            append(pet.getNick()).
+                            append("</td><td>").
+                            append(pet.getOwner()).
+                            append("</td><td>").
+                            append(pet.getAge()).
+                            append("</td></tr>");
                     finded = true;
                 }
             }
@@ -99,8 +117,5 @@ public class WebClinicServlet extends HttpServlet {
         }
         return sb.toString();
     }
-
-
-
 }
 
