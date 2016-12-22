@@ -7,7 +7,7 @@
 		 <display-name>PetClinic</display-name>
 
 	<servlet>
-		<servlet-name>PetClinic</servlet-name>
+		<servlet-name>WebClinicServlet</servlet-name>
 		<servlet-class>petclinic.servlets.WebClinicServlet</servlet-class>
 	</servlet>
 
